@@ -3,6 +3,7 @@ var socket = io.connect("http://" + document.domain + ":" + location.port);
 
 socket.on("connect", function() {
   console.log("connected");
+  socket.emit("createEnviroment",{id:1})
 });
 
 //form
@@ -16,16 +17,19 @@ let gravity = document.getElementById("g");
 button.addEventListener("click", function() {
   console.log(height.value, gravity.value);
   socket.emit("settings", {
-    g0: gravity.value,
-    height: height.value,
-    diam: diam.value,
-    pressure: pressure.value
+    id: 1,
+    data: {
+      g0: gravity.value,
+      height: height.value,
+      diam: diam.value,
+      pressure: pressure.value
+    }
   });
 });
 
 startButton.addEventListener("click", function() {
   console.log("startingCalc");
-  socket.emit("startCalculation");
+  socket.emit("startCalculation", {id:1});
 });
 
 drawButton.addEventListener("click", function() {

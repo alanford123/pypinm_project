@@ -48,6 +48,12 @@ class Enviroment:
         print(f'Setting height to: {height}')
         self.height = height
 
+    def updateSettings(self, settings):
+        self.setGrav(float(settings['g0']))
+        self.setDiam(float(settings['diam']))
+        self.setPressure(float(settings['pressure']))
+        self.setHeight(float(settings['height']))
+
     def startCalculation(self):
         d = {
             "m": self.m,
