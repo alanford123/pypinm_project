@@ -60,6 +60,7 @@ class Enviroment:
             "rho_air_value": self.rho_air,
             "y_points": self.y_points,
             "diam": self.diam,
-            "height": self.height
+            "height": self.height,
+            "g0": self.g0
         }
         return initCalculation(**d)

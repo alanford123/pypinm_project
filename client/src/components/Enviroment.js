@@ -14,16 +14,16 @@ export default class Enviroment extends React.Component {
     super(props);
     this.state = {
       form: {
-        pressure: 3, //bar
+        pressure: 1, //bar
         gravity: 9.81, //m/s**2
         height: 67, //m
         diam: 0.02 //m
       },
       response: {
-          a:null,
-          v:null,
-          y:null,
-          t:null
+        a: null,
+        v: null,
+        y: null,
+        t: null
       }
     };
 
@@ -34,17 +34,34 @@ export default class Enviroment extends React.Component {
 
   componentDidMount() {
     this.props.socket.emit("createEnviroment", { id: this.props.id });
-    this.props.socket.on("calculationResponse", (response) => {        
-        if(response.id === this.props.id){
-            console.log("Response! ID: ", response.id);
-           this.setState({response:{
-               a:response.data.a,
-               v:response.data.v,
-               y:response.data.y,
-               t:response.data.t,
-           }})
-        }
+    this.props.socket.emit("settings", {
+      id: this.props.id,
+      data: {
+        g0: this.state.form.gravity,
+        height: this.state.form.height,
+        diam: this.state.form.diam,
+        pressure: this.state.form.pressure
+      }
+    });
 
+    this.props.socket.on("calculationResponse", response => {
+      if (response.id === this.props.id) {
+        console.log("Response! ID: ", response.id);
+        console.log("Response! data: ", response.data);
+        //Round the response down to 2 digits
+        let t = response.data.t.map(function(each_element) {
+          return Number(each_element.toFixed(2));
+        });
+
+        this.setState({
+          response: {
+            a: response.data.a,
+            v: response.data.v,
+            y: response.data.y,
+            t: t
+          }
+        });
+      }
     });
   }
 
@@ -83,7 +100,32 @@ export default class Enviroment extends React.Component {
   render() {
     return (
       <StyledContainer>
-        {this.state.response.t !== null && <Graph id={'acceleration'} x={this.state.response.t} y={this.state.response.a} />}
+        {this.state.response.t !== null && (
+          <Graph
+            id={"acceleration"}
+            x={this.state.response.t}
+            y={this.state.response.a}
+            title={"Pospešek"}
+            
+          />
+        )}
+        {this.state.response.t !== null && (
+          <Graph
+            id={"acceleration"}
+            x={this.state.response.t}
+            y={this.state.response.v}
+            title={"Hitrost"}
+          />
+        )}
+        {this.state.response.t !== null && (
+          <Graph
+            id={"acceleration"}
+            x={this.state.response.t}
+            y={this.state.response.y}
+            title={"Pot"}
+            ticks
+          />
+        )}
         <Form
           socket={this.props.socket}
           setFormData={this.setFormDataState}

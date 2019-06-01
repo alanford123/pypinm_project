@@ -46,8 +46,9 @@ class App extends React.Component {
     );
     return (
       <div className="App">
-        <EnviromentMenu addEnviroment={this.addEnviroment} removeEnviroment={this.removeEnviroment}/>
+        
         <header className="App-header">
+        <EnviromentMenu addEnviroment={this.addEnviroment} removeEnviroment={this.removeEnviroment}/>
           {this.state.socket === null ? "Connecting" : enviroments }
         </header>
       </div>
