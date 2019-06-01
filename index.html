@@ -3,15 +3,23 @@
   <head>
     <title>Socket.IO Latency</title>
     <link rel="stylesheet" href="/static/style.css" />
-    
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   </head>
   <body>
     <h1>Nastavitve</h1>
-    <input type="text" id=mass></input>masa
-    <input type="text" id=g></input>gravitacija
-    <input type="button" id=submit value="potrdi"></input>
-    <input type="button" id=start value="start"></input>
+    <p><input type="text" id=pressure value=1></input>pritisk
+    </p>
 
+    
+    <p><input type="text" id=g value=9.81></input>gravitacija</p>
+    <p><input type="text" id=height value=67></input>height</p>
+    <p><input type="text" id=diam value=0.5></input>diam</p>
+    <p><input type="button" id=submit value="potrdi"></input></p>
+      <p> <input type="button" id=start value="start"></input></p>
+      <p> <input type="button" id=draw value="draw"></input></p>
+
+
+      <div id="tester" style="width:600px;height:250px;"></div>
   </body>
   <footer>
 

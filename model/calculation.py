@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import integrate
 from scipy.integrate import solve_ivp
+from model.helperFunctions import returnK
 
 
 def fun(x, y, g=9.81, m=30, d=0.1, rho=1.18/1000, mu=0.0000157):
@@ -8,56 +9,23 @@ def fun(x, y, g=9.81, m=30, d=0.1, rho=1.18/1000, mu=0.0000157):
     #Vrnjen vektor
     return np.array([y[1], g-k/m*y[1]**2])
 
-def returnK(v, rho, d, mu, m):
-    # Konstante izračuna Cd ( https://www.researchgate.net/publication/244155878 )
-    A=0.1806
-    B=0.6459
-    C=0.4251
-    D=6880.95
-    
-    # Izračun Cd vključuje deljenje z hitrostjo. Ker je pri začetnem pogoju le-ta enaka 0 ji prištejemo nekaj zelo majhnega.   
-    Re = d*v*rho/mu+0.000000001
-    Cd = 24/Re*(1+A*Re**B)+C/(1+D/Re)
-     #Izračun konstante
-    k = (((d/2)**2)*Cd*rho*v**2)/2
-    return k
 
-def returnMass(diam):
-    
+def solveODE(m, rho_air_value, y_points, diam, height):
+    #Pogoj kdaj se izračun diferencialne enačbe konča
+    tla = lambda x,y: height-y[0]
+    tla.terminal = True
+    tla.direction = -1
 
+    #Numerični izračun rešitve
+    res = solve_ivp(lambda t, y: fun(t, y, m=m, d=diam, rho=float(rho_air_value/1000)), [y_points[0], y_points[-1]], y0=np.array([0,0]), t_eval=y_points,events=tla)
+    y,v=res.y
+
+    #Izračun pospeška
+    a=fun(y_points,res.y,m=m, d=diam, rho=float(rho_air_value/1000))[1]
+
+    return a,v,y, res.t
 
 
-
-def initCalculation(m,g0,height,y_points,y_step):
-    print('starting calculation')
-    return getTranslationArray(g0,m,y_points,y_step)
-
-def getTranslationArray(g0,m,y_points,y_step):
-    return integrate.cumtrapz(y=getSpeedArray(y_points,m,g0), dx=y_step, initial=0)
-
-
-def euler(f, t, y0, *args, **kwargs):
-    ##FROM pypinm
-    """
-    Eulerjeva metoda za reševanje sistema diferencialnih enačb: y' = f(t, y)
-    
-    :param f:  funkcija, ki vrne prvi odvod - f(t, y)
-    :param t:  časovni vektor kjer računamo rešitev
-    :param y0: začetna vrednosti
-    :param args: dodatni argumenti funkcije f (brezimenski)
-    :param kwargs: dodatni argumenti funkcije f (poimenovani)
-    :return y: vrne np.array ``y`` vrednosti funkcije.
-    """
-    y = np.zeros_like(t)
-    y[0] = y0        
-    h = t[1]-t[0]
-    for i in range(len(t)-1):
-        y[i+1] = y[i] + f(t[i], y[i], *args, **kwargs) * h
-    return y
-
-def f_zračni_upor(t, y, g=9.81, m=1., c=1):
-    ##FROM pypinm
-    return g-c*y/m
-
-def getSpeedArray(y_points,m,g0):
-    return euler(f_zračni_upor, y_points, y0=0, m=m, g=g0)
+def initCalculation(**d):
+    print('Starting ODE calculation')
+    return solveODE(**d)
