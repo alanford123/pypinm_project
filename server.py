@@ -42,7 +42,7 @@ async def startCalculation(sid, message):
     await sio.emit('calculationResponse', {'id': message['id'], 'data': {'a': a.tolist(),
                                                                          'v': v.tolist(),
                                                                          'y': y.tolist(),
-                                                                         'resultPoints': t.tolist()}})
+                                                                         't': t.tolist()}})
 
 
 @sio.on('disconnect')

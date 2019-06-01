@@ -11,7 +11,7 @@ const StyledForm = styled.form`
 `;
 
 export default function(props) {
-  const { socket, setFormData, formData, formSend } = props;
+  const { socket, setFormData, formData, formSend, startCalculation } = props;
 
   function handleChange(event) {
     const target = event.target;
@@ -54,7 +54,9 @@ export default function(props) {
         onChange={handleChange}
         margin="normal"
       />
-      <input type="submit" value="Submit" onClick={e => formSend(e)} />
+      <input type="submit" value="Pošlji nastavitve" onClick={e => formSend(e)} style={{marginBottom:'0.5rem'}}/>
+      
+      <input type="submit" value="Izračunaj" onClick={e => startCalculation(e)} />
     </StyledForm>
   );
 }
