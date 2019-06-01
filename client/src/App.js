@@ -16,6 +16,7 @@ class App extends React.Component {
     this.socketConnect = this.socketConnect.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.addEnviroment = this.addEnviroment.bind(this);
+    this.removeEnviroment = this.removeEnviroment.bind(this);
   }
 
   socketConnect() {
@@ -34,6 +35,9 @@ class App extends React.Component {
   addEnviroment(){
     this.setState({enviromentNumber: this.state.enviromentNumber+1})
   }
+  removeEnviroment(){
+    this.setState({enviromentNumber: this.state.enviromentNumber-1})
+  }
 
   render() {
     const enviroments = generateEnviroments(
@@ -42,7 +46,7 @@ class App extends React.Component {
     );
     return (
       <div className="App">
-        <EnviromentMenu addEnviroment={this.addEnviroment} />
+        <EnviromentMenu addEnviroment={this.addEnviroment} removeEnviroment={this.removeEnviroment}/>
         <header className="App-header">
           {this.state.socket === null ? "Connecting" : enviroments }
         </header>

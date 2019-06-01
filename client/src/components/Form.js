@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
 
@@ -11,31 +11,14 @@ const StyledForm = styled.form`
 `;
 
 export default function(props) {
-  const { socket } = props;
-  const [values, setValues] = React.useState({
-    diam: 0.02,
-    pressure: 1,
-    height: 67,
-    gravity: 9.81
-  });
+  const { socket, setFormData, formData, formSend } = props;
 
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    console.log("submit");
-    socket.emit("settings", {
-        id: 1,
-        data: {
-          g0: values.gravity,
-          height: values.height,
-          diam: values.diam,
-          pressure: values.pressure
-        }
-      });
-  };
+  function handleChange(event) {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.id;
+    setFormData(name, value);
+  }
 
   return (
     <StyledForm>
@@ -43,35 +26,35 @@ export default function(props) {
         id="diam"
         label="Diameter"
         className={1}
-        value={values.diam}
-        onChange={handleChange("diam")}
+        value={formData.diam}
+        onChange={e => handleChange(e)}
         margin="normal"
       />
       <TextField
         id="pressure"
         label="Pritisk"
         className={1}
-        value={values.pressure}
-        onChange={handleChange("pressure")}
+        value={formData.pressure}
+        onChange={handleChange}
         margin="normal"
       />
       <TextField
         id="height"
         label="Height"
         className={1}
-        value={values.height}
-        onChange={handleChange("height")}
+        value={formData.height}
+        onChange={handleChange}
         margin="normal"
       />
       <TextField
         id="gravity"
         label="Gravitacija"
         className={1}
-        value={values.gravity}
-        onChange={handleChange("gravity")}
+        value={formData.gravity}
+        onChange={handleChange}
         margin="normal"
       />
-      <input type="submit" value="Submit" onClick={e => handleSubmit(e)} />
+      <input type="submit" value="Submit" onClick={e => formSend(e)} />
     </StyledForm>
   );
 }

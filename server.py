@@ -3,13 +3,14 @@ import aiohttp_cors
 from model.enviromentLibrary import EnviromentLibrary
 import socketio
 
-#Init server 
+# Init server
 sio = socketio.AsyncServer()
 app = web.Application()
 sio.attach(app)
 
-#List of connected clients
+# List of connected clients
 clients = {}
+
 
 async def index(request):
     """Serve the client-side application."""
@@ -25,7 +26,7 @@ def connect(sid, environ):
 
 @sio.on('settings')
 async def settings(sid, message):
-    #Message packet contains object with ID and Settings 
+    # Message packet contains object with ID and Settings
     clients[sid].updateEnviroment(message['id'], message['data'])
 
 
@@ -38,10 +39,10 @@ async def createEnviroment(sid, message):
 @sio.on('startCalculation')
 async def startCalculation(sid, message):
     a, v, y, t = clients[sid].startCalculation(message['id'])
-    await sio.emit('calculationResponse', {'a': a.tolist(),
-                                           'v': v.tolist(),
-                                           'y': y.tolist(),
-                                           'resultPoints': t.tolist()})
+    await sio.emit('calculationResponse', {'id': message['id'], 'data': {'a': a.tolist(),
+                                                                         'v': v.tolist(),
+                                                                         'y': y.tolist(),
+                                                                         'resultPoints': t.tolist()}})
 
 
 @sio.on('disconnect')
