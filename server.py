@@ -14,7 +14,7 @@ clients = {}
 
 async def index(request):
     """Serve the client-side application."""
-    with open('index.html') as f:
+    with open('client/build/index.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 
 
@@ -50,7 +50,7 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 
-app.router.add_static('/static', 'static')
+app.router.add_static('/static', 'client/build/static')
 app.router.add_get('/', index)
 
 
