@@ -1,4 +1,5 @@
 from aiohttp import web
+import aiohttp_cors
 from model.enviromentLibrary import EnviromentLibrary
 import socketio
 
@@ -54,3 +55,23 @@ app.router.add_get('/', index)
 
 def startServer():
     web.run_app(app)
+
+
+# `aiohttp_cors.setup` returns `aiohttp_cors.CorsConfig` instance.
+# The `cors` instance will store CORS configuration for the
+# application.
+cors = aiohttp_cors.setup(app)
+
+# To enable CORS processing for specific route you need to add
+# that route to the CORS configuration object and specify its
+# CORS options.
+resource = cors.add(app.router.add_resource("/hello"))
+route = cors.add(
+    resource.add_route("GET", index), {
+        "*": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers=("X-Custom-Server-Header",),
+            allow_headers=("X-Requested-With", "Content-Type"),
+            max_age=3600,
+        )
+    })

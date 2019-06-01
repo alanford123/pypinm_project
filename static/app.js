@@ -3,7 +3,7 @@ var socket = io.connect("http://" + document.domain + ":" + location.port);
 
 socket.on("connect", function() {
   console.log("connected");
-  socket.emit("createEnviroment",{id:1})
+  socket.emit("createEnviroment",{id:999})
 });
 
 //form
