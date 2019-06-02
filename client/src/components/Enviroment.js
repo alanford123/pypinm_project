@@ -2,6 +2,7 @@ import React from "react";
 import Form from "./Form";
 import styled from "styled-components";
 import Graph from "./Graph";
+import ResponseInfo from './ResponseInfo'
 
 const StyledContainer = styled.div`
   padding: 0 2rem;
@@ -127,6 +128,14 @@ export default class Enviroment extends React.Component {
             y={this.state.response.y}
             title={"Pot"}
             ticks
+          />
+        )}
+        {this.state.response.t !== null && (
+          <ResponseInfo
+            id={"responseInfo"}
+            t={this.state.response.t[this.state.response.t.length - 1]}
+            y={this.state.response.y[this.state.response.y.length - 1]}
+            v={this.state.response.v[this.state.response.v.length - 1]}            
           />
         )}
         <Form

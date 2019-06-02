@@ -29,7 +29,7 @@ export default function(props) {
       <TextField
         id="diam"
         name="diam"
-        label="Diameter"
+        label="Diameter [m]"
         className={1}
         value={formData.diam}
         onChange={e => handleChange(e)}
@@ -38,7 +38,7 @@ export default function(props) {
       <TextField
         id="pressure"
         name="pressure"
-        label="Pritisk"
+        label="Pritisk [bar]"
         className={1}
         value={formData.pressure}
         onChange={handleChange}
@@ -47,7 +47,7 @@ export default function(props) {
       <TextField
         id="height"
         name="height"
-        label="Height"
+        label="Višina [m]"
         className={1}
         value={formData.height}
         onChange={handleChange}
@@ -56,7 +56,7 @@ export default function(props) {
       <TextField
         id="gravity"
         name="gravity"
-        label="Gravitacija"
+        label="Gravitacija [m/s^2]"
         className={1}
         value={formData.gravity}
         onChange={handleChange}

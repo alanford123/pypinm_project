@@ -8,7 +8,7 @@ class Enviroment:
     g0 = 9.81  # Gravitational acceleration [m/s^2]
     m = 5  # Mass of object [kg]
     height = 10  # Height of tower [m]    ##SET BY CLIENT
-    samples = 500  # Number of points (resolution) [/]
+    samples = 1000  # Number of points (resolution) [/]
     duration = 50  # Duration of calculation [s]
     diam = 0.2  # Diameter of spehere [m]    ##SET BY CLIENT
     rho = 7874  # Density [kg/m^3]
