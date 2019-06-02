@@ -21,6 +21,6 @@ class EnviromentLibrary:
         self.library[id].setDiam(float(settings['diam']))
         self.library[id].setPressure(float(settings['pressure']))
         self.library[id].setHeight(float(settings['height']))
-        
+
     def startCalculation(self, id):
         return self.library[id].startCalculation()
