@@ -42,7 +42,7 @@ export default class Enviroment extends React.Component {
         height: this.state.form.height,
         diam: this.state.form.diam,
         pressure: this.state.form.pressure,
-        density:this.state.form.density,        
+        density:this.state.form.material,        
       }
     });
 
