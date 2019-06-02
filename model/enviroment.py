@@ -26,7 +26,6 @@ class Enviroment:
         self.g0 = float(g0)
 
     def setMass(self, m):
-        # DEPRECATED
         print(f'Setting mass to: {m}')
         self.m = float(m)
 
