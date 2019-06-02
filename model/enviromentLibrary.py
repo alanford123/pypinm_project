@@ -17,6 +17,7 @@ class EnviromentLibrary:
     def updateEnviroment(self, id, settings):
         print(f'Updating enviroment id: {id}')
         self.library[id].setGrav(float(settings['g0']))
+        self.library[id].setDensity(settings['density'])
         self.library[id].setDiam(float(settings['diam']))
         self.library[id].setPressure(float(settings['pressure']))
         self.library[id].setHeight(float(settings['height']))

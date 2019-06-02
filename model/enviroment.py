@@ -16,6 +16,16 @@ class Enviroment:
     pressure = 1  # Air pressure [bar]   ##SET BY CLIENT
     # Points for sampling @TODO: does this need a +1 on number of samples?
     y_points, y_step = np.linspace(0, duration, samples, retstep=True)
+    densityLibrary = {
+        'iron': 7874,
+        'aluminum': 2700,
+        'lead': 11340,
+        'paper': 700,
+        'snow': 560,
+        'wool': 100,
+        'rubber': 1100,
+
+    }  # https://www.amesweb.info/Materials/Density-Materials.aspx
 
     def __init__(self):
         # constructor (for later)
@@ -47,7 +57,12 @@ class Enviroment:
         print(f'Setting height to: {height}')
         self.height = height
 
+    def setDensity(self, density):
+        print(f'Setting object density to: {self.densityLibrary[density]}')
+        self.rho = self.densityLibrary[density]
+
     def updateSettings(self, settings):
+        # @TODO: Is this still in use?
         self.setGrav(float(settings['g0']))
         self.setDiam(float(settings['diam']))
         self.setPressure(float(settings['pressure']))

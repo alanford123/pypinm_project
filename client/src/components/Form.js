@@ -1,6 +1,10 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const StyledForm = styled.form`
   display: flex;
@@ -16,7 +20,7 @@ export default function(props) {
   function handleChange(event) {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.id;
+    const name = target.name;
     setFormData(name, value);
   }
 
@@ -24,6 +28,7 @@ export default function(props) {
     <StyledForm>
       <TextField
         id="diam"
+        name="diam"
         label="Diameter"
         className={1}
         value={formData.diam}
@@ -32,6 +37,7 @@ export default function(props) {
       />
       <TextField
         id="pressure"
+        name="pressure"
         label="Pritisk"
         className={1}
         value={formData.pressure}
@@ -40,6 +46,7 @@ export default function(props) {
       />
       <TextField
         id="height"
+        name="height"
         label="Height"
         className={1}
         value={formData.height}
@@ -48,15 +55,47 @@ export default function(props) {
       />
       <TextField
         id="gravity"
+        name="gravity"
         label="Gravitacija"
         className={1}
         value={formData.gravity}
         onChange={handleChange}
         margin="normal"
       />
-      <input type="submit" value="Pošlji nastavitve" onClick={e => formSend(e)} style={{marginBottom:'0.5rem'}}/>
-      
-      <input type="submit" value="Izračunaj" onClick={e => startCalculation(e)} />
+      <FormControl>
+        <InputLabel htmlFor="material">Material</InputLabel>
+        <Select
+          id="material"
+          name="material"
+          value={formData.material}
+          onChange={handleChange}
+          inputProps={{
+            name: "material",
+            id: "material"
+          }}
+          style={{textAlign:'left'}}
+        >
+          <MenuItem value={"iron"}>Železo [7874 kg/m^3]</MenuItem>
+          <MenuItem value={"aluminum"}>Aluminij [2700 kg/m^3]</MenuItem>
+          <MenuItem value={"lead"}>Svinec [11340 kg/m^3]</MenuItem>
+          <MenuItem value={"paper"}>Papir [700 kg/m^3]</MenuItem>
+          <MenuItem value={"snow"}>Sneg [560 kg/m^3]</MenuItem>
+          <MenuItem value={"wool"}>Volna [100 kg/m^3]</MenuItem>
+          <MenuItem value={"rubber"}>Guma [1100 kg/m^3]</MenuItem>
+        </Select>
+      </FormControl>
+      <input
+        type="submit"
+        value="Pošlji nastavitve"
+        onClick={e => formSend(e)}
+        style={{ marginBottom: "0.5rem", marginTop: "1rem" }}
+      />
+
+      <input
+        type="submit"
+        value="Izračunaj"
+        onClick={e => startCalculation(e)}
+      />
     </StyledForm>
   );
 }

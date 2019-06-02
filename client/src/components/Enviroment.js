@@ -17,7 +17,8 @@ export default class Enviroment extends React.Component {
         pressure: 1, //bar
         gravity: 9.81, //m/s**2
         height: 67, //m
-        diam: 0.02 //m
+        diam: 0.02, //m
+        material: 'iron', //material of sphere
       },
       response: {
         a: null,
@@ -40,7 +41,8 @@ export default class Enviroment extends React.Component {
         g0: this.state.form.gravity,
         height: this.state.form.height,
         diam: this.state.form.diam,
-        pressure: this.state.form.pressure
+        pressure: this.state.form.pressure,
+        density:this.state.form.density,        
       }
     });
 
@@ -77,14 +79,15 @@ export default class Enviroment extends React.Component {
 
   handleFormSend = event => {
     event.preventDefault();
-    console.log("submit");
+    console.log(`Sent: ${this.state.form.density}`);
     this.props.socket.emit("settings", {
       id: this.props.id,
       data: {
         g0: this.state.form.gravity,
         height: this.state.form.height,
         diam: this.state.form.diam,
-        pressure: this.state.form.pressure
+        pressure: this.state.form.pressure,
+        density: this.state.form.material,  
       }
     });
   };
